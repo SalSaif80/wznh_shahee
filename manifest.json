@@ -1,0 +1,17 @@
+{
+    "name": "وزنة شاي",
+    "short_name": "وزنة شاي",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "theme_color": "#6c757d",
+    "background_color": "#f8f9fa",
+    "icons": [
+      {
+        "src": "./logo.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      }
+      
+    ]
+  }
+  
