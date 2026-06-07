@@ -35,19 +35,15 @@ const cards = [
 window.addEventListener("DOMContentLoaded",()=>{
     // ===== remove loader spinner on content loaded =====
     loader.style.display =  "none"   
-    // =====// remove loader spinner on content loaded //=====
 
     // ===== search about tea name  =====
     search_about_tea()
-    // =====// search about tea name  //=====
 
     // ===== fill cardes =====
     fill_cards_on_screen(cards)
-    // =====// fill cardes //=====
 
     // ===== fill information in modal =====
     fill_info_on_modal()
-    // =====// fill information in modal //=====
     
     document.getElementById('modalTea').addEventListener('hidden.bs.modal', event => {
         document.getElementById('calculate-modal-body').innerHTML = ``
