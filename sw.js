@@ -5,6 +5,7 @@ const CACHE_VERSION = 'v1';
 const CACHE_STATIC_NAME = `static-${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-${CACHE_VERSION}`;
 
+
 // Files to cache
 const staticAssets = [
   '/',
