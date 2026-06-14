@@ -1,85 +1,223 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وزنة شاي - ضبط خلطتك المثالية</title>
+    
     <link rel="stylesheet" href="./style/bootstrap.min.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.css" integrity="sha512-MpdEaY2YQ3EokN6lCD6bnWMl5Gwk7RjBbpKLovlrH6X+DRokrPRAF3zQJl1hZUiLXfo2e9MrOt+udOnHCAmi5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <link rel="stylesheet" href="./style/style.css">
     <link rel="manifest" href="manifest.json">
-    <title>وزنة شاي</title>
+
+    <style>
+        /* تحسينات التصميم الإضافية لتجربة مستخدم فاخرة */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #fdfbf7 0%, #f5efe6 100%);
+            color: #3e2723;
+            min-height: 100vh;
+        }
+
+        /* تصميم الملقّن (Loader) المطور */
+        #loader {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* الهيدر والعنوان */
+        .main-title {
+            color: #4e342e;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            letter-spacing: -0.5px;
+        }
+        
+        .title-divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #8d6e63, #4e342e);
+            margin: 15px auto 30px auto;
+            border-radius: 2px;
+        }
+
+        /* شريط البحث */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-box {
+            border: 2px solid #d7ccc8;
+            border-radius: 30px !important;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            font-size: 1rem;
+        }
+
+        .search-box:focus {
+            border-color: #8d6e63;
+            box-shadow: 0 4px 20px rgba(141, 110, 99, 0.2);
+            outline: none;
+        }
+
+        /* نافذة المودال (Modal) المحدثة */
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            background-color: #fffefb;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #efebe9;
+            background-color: #f5efe6;
+            border-top-left-radius: 20px !important;
+            border-top-right-radius: 20px !important;
+            padding: 20px;
+        }
+
+        .modal-title {
+            color: #4e342e;
+            font-weight: 700;
+        }
+
+        .modal-body {
+            padding: 30px 25px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #efebe9;
+            padding: 15px 25px;
+        }
+
+        /* تخصيص أزرار وحقول المودال */
+        .custom-input {
+            border: 2px solid #d7ccc8;
+            border-radius: 12px;
+            padding: 10px 15px;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .custom-input:focus {
+            border-color: #8d6e63;
+            box-shadow: 0 0 0 0.25rem rgba(141, 110, 99, 0.25);
+        }
+
+        .btn-explain {
+            background-color: #8d6e63;
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-explain:hover {
+            background-color: #70554c;
+            transform: translateY(-2px);
+        }
+
+        .btn-close-modal {
+            background-color: #e57373;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 20px;
+        }
+        
+        .btn-close-modal:hover {
+            background-color: #ef5350;
+        }
+
+        /* أنيميشن بسيط لظهور الكروت */
+        #tea-cards {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-    <!-- loader -->
-    <div style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; z-index: 999;" id="loader">
-        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-    </div>
-    <!--// loader //-->
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalTea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div style="position: fixed; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; z-index: 9999;" id="loader">
+        <div class="lds-roller">
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTea" tabindex="-1" aria-labelledby="teaTitleModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="teaTitleModal">حساب وزنة شاهي</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    
+                    <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     
-                    <div class="d-flex justify-content-center align-items-center">
-                        <h4 class="w-50 ">مقدار الماء بالمللتر </h4>
-                        <input class="form-control w-50" type="number" id="calculateAmountWater">
+                    <div class="row g-3 align-items-center justify-content-center">
+                        <div class="col-sm-6 text-center text-sm-start">
+                            <label for="calculateAmountWater" class="form-label fs-5 fw-bold mb-0">مقدار الماء (مللتر):</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control custom-input" type="number" id="calculateAmountWater" placeholder="مثال: 500">
+                        </div>
                     </div>
 
                     <div class="mt-4">
-                        <button class="btn btn-primary w-100" onclick="explain100ml()">اضغط لتوضيح معنى 100 مللتر</button>
+                        <button class="btn btn-explain w-100 shadow-sm" onclick="explain100ml()">
+                            💡 اضغط لتوضيح معنى 100 مللتر
+                        </button>
                     </div>
                     
-                    <div id="calculate-modal-body" class="mt-3">
-
-                    </div>
+                    <div id="calculate-modal-body" class="mt-4 p-3 rounded-3 bg-light text-center">
+                        </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-danger btn-close-modal text-white" data-bs-dismiss="modal">إغلاق</button>
                 </div>
             </div>
         </div>
     </div>
-    <!--// Modal //-->
 
-    <div>
-        <div class="text-center mt-4 ">  
-            <b><p class="fs-1">حساب وزنة الشاي</p></b>
-        </div>
-        <div class="container">
-            <hr class="shoadw">
+    <main class="py-5">
+        <div class="container text-center mb-4">  
+            <h1 class="main-title display-4">حساب وزنة الشاي</h1>
+            <div class="title-divider"></div>
         </div>
         
-        
-            
-        <div class="container">
-            <form class="d-flex justify-content-center align-items-center" role="search" onsubmit="(event)=>{event.preventDefault()}">
-                <input class="form-control mx-0 border-2" id="search-input" type="search" placeholder="ابحث عن اسم أو نوع الشاهي أو صاحب الخلطة" aria-label="Search" style="margin-left: 10px;">
+        <div class="container search-container mb-5">
+            <form onsubmit="event.preventDefault();">
+                <div class="position-relative">
+                    <input class="form-control search-box text-center" id="search-input" type="search" placeholder="🔍 ابحث عن اسم الشاهي، النوع، أو صاحب الخلطة..." aria-label="Search">
+                </div>
             </form>
         </div>
             
-          
-        <div class="container mt-5">
-            <div id="tea-cards" class="row">
-                
-            </div>              
+        <div class="container">
+            <div id="tea-cards" class="row g-4 justify-content-center">
+                </div>              
         </div>
-    </div>
-
+    </main>
 
     <script src="./script/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js" integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./script/main.js"></script>
+    
     <script>
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
